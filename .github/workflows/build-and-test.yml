@@ -1,45 +1,47 @@
 name: build and test
 
 on:
-    push:
-        branches: [ master ]
-    pull_request:
-        branches: [ master ]
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
-    build:
+  build:
 
-        runs-on: ubuntu-latest
-        strategy:
-            matrix:
-                node-version: [ 12.x, 14.x ]
+    runs-on: ubuntu-latest
 
-        steps:
-            - uses: actions/checkout@v2
-            - uses: actions/cache@v2
-              with:
-                  path: |
-                      ~/.yarn
-                  key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
-                  restore-keys: |
-                      ${{ runner.os }}-node-
-            - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v1
-              with:
-                  node-version: ${{ matrix.node-version }}
-            - run: yarn install --frozen-lockfile
-            - run: yarn test:coverage --ci --maxWorkers=2
-              env:
-                  CI: true
-                  DOMAIN: localhost
-                  JWT_SECRET: testing-access-token-secret
-            - run: yarn build
-            - name: report coverage to code climate
-              if: ${{ github.event_name == 'push' && github.ref == 'refs/head/master' }}
-              run: |
-                  curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-                  chmod +x ./cc-test-reporter
-                  ./cc-test-reporter format-coverage -t lcov coverage/lcov.info
-                  ./cc-test-reporter upload-coverage
-            env:
-                CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+    strategy:
+      matrix:
+        node-version: [ 12.x, 14.x ]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: yarn install --frozen-lockfile
+      - run: yarn test:coverage --ci --maxWorkers=2
+        env:
+          CI: true
+          DOMAIN: localhost
+          JWT_SECRET: testing-access-token-secret
+      - run: yarn build --if-present
+      - name: report coverage to code climate
+        # code coverage report will only run on the master branch and not on pull request
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        run: |
+          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          chmod +x ./cc-test-reporter
+          ./cc-test-reporter format-coverage -t lcov coverage/lcov.info
+          ./cc-test-reporter upload-coverage
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
