@@ -2,6 +2,10 @@
 
 An authorization service for the Impression image host.
 
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/gebhartn/ms-auth-impression/build%20and%20test?label=tests&style=flat-square)](https://github.com/gebhartn/ms-auth-impression)
+[![Test Coverage](https://img.shields.io/codeclimate/coverage/gebhartn/ms-auth-impression?style=flat-square)](https://codeclimate.com/github/gebhartn/ms-auth-impression/test_coverage)
+[![Maintainability](https://img.shields.io/codeclimate/coverage-letter/gebhartn/ms-auth-impression?label=maintainability&style=flat-square)](https://codeclimate.com/github/gebhartn/ms-auth-impression/maintainability)
+
 ## Getting Started
 
 ### Install
