@@ -1,0 +1,6 @@
+{
+    "aws": {
+        "accessKey": "Set me in config/local.json",
+        "secretAccess": "Set me in config/local.json"
+    }
+}
