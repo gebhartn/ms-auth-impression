@@ -34,7 +34,7 @@ jobs:
           CI: true
           DOMAIN: localhost
           JWT_SECRET: testing-access-token-secret
-      - run: yarn build --if-present
+      - run: yarn build
       - name: report coverage to code climate
         # code coverage report will only run on the master branch and not on pull request
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
