@@ -1,3 +1,7 @@
-import Logger from './logger';
+/* istanbul ignore file */
+import config from 'config';
+import server from './server';
 
-Logger.info('Hello, world');
+const port = process.env.PORT || config.get<number>('port');
+
+server.listen(port);
