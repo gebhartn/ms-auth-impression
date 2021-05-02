@@ -1,12 +1,4 @@
-import { makeLogger } from '../../src/logger';
-
-describe('index', () => {
-    it('can run the index.ts file', async () => {
-        const module = await import('../../src/index');
-
-        expect(module).toBeDefined();
-    });
-});
+import { makeLogger, printf } from '../../../src/logger';
 
 describe('logger', () => {
     it('logs the correct level in production', async () => {
@@ -23,5 +15,12 @@ describe('logger', () => {
         const logger = makeLogger();
 
         expect(logger.level).toBe('debug');
+    });
+
+    it('formats logs as expected', () => {
+        const expected = `[2021-05-01 20:58:14:5814] info: Hello, world`;
+        const actual = printf({ timestamp: '2021-05-01 20:58:14:5814', level: 'info', message: 'Hello, world' });
+
+        expect(expected).toBe(actual);
     });
 });
