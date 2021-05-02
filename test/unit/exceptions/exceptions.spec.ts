@@ -6,25 +6,6 @@ describe('exceptions', () => {
         expect(new ImpressionError('Hello', 500)).toBeInstanceOf(Error);
     });
 
-    //; describe('calls super', () => {
-    //;     let ParentOriginal: any;
-    //;     let ParentMock: jest.Mock;
-    //;     beforeEach(() => {
-    //;         ParentOriginal = Object.getPrototypeOf(ImpressionError);
-    //;         ParentMock = jest.fn();
-    //;         Object.setPrototypeOf(ImpressionError, ParentMock);
-    //;     });
-
-    //;     it('', () => {
-    //;         new ImpressionError('Hello', 666);
-    //;         expect(ParentMock.mock.calls.length).toBe(1);
-    //;     });
-
-    //;     afterEach(() => {
-    //;         Object.setPrototypeOf(ImpressionError, ParentOriginal);
-    //;     });
-    //; });
-
     describe('internal server error', () => {
         it('should return a 500 status with an "Internal Server Error" message', () => {
             const exception = ImpressionError.internalServerError();
