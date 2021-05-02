@@ -1,4 +1,5 @@
 {
+    "port": "8080",
     "aws": {
         "accessKey": "Set me in config/local.json",
         "secretAccess": "Set me in config/local.json"
